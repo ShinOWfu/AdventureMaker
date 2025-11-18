@@ -1,0 +1,12 @@
+<div id='messages'>
+  <p><%= @chat.messages.last.content %></p>
+</div>
+
+
+<div id='chatbox'>
+  <%= simple_form_for [@chat, @message] do |f| %>
+    <%= f.input :content, label: 'What is your next action?', required: true %>
+    <%= f.submit %>
+
+  <% end %>
+</div>
