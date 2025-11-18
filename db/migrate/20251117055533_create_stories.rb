@@ -9,6 +9,7 @@ class CreateStories < ActiveRecord::Migration[7.1]
       t.text :system_prompt
       t.references :user, null: false, foreign_key: true
 
+
       t.timestamps
     end
   end
