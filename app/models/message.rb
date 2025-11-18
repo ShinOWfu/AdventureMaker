@@ -1,3 +1,4 @@
 class Message < ApplicationRecord
-  belongs_to :story
+  acts_as_message tool_calls_foreign_key: :message_id
+  has_many_attached :attachments
 end
