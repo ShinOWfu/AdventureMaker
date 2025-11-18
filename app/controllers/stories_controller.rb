@@ -2,10 +2,12 @@ class StoriesController < ApplicationController
   def new
     @story = Story.new
   end
+
   def create
     @story = Story.new(story_params)
+    @story.user = current_user
     if @story.save
-      redirect_to @story, notice: "A new story has begun!"
+      redirect_to @chat.show, notice: "A new story has begun!"
     else
       render :new, status: :unprocessable_entity
     end
