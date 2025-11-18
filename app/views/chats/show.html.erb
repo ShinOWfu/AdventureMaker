@@ -1,3 +1,5 @@
+<%= cl_image_tag @chat.messages.last.attachments.first.key %>
+
 <div id='messages'>
   <p><%= @chat.messages.last.content %></p>
 </div>
