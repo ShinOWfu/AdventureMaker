@@ -1,7 +1,7 @@
 <div class="assessment-page container">
   <!-- Header for protagonist name, story title generated based on protagonist name, genre, topic -->
   <div class="story-header">
-    <h1 class="story-title"><%= @story.title %></h1>
+    <h1 class="story-title"> Story Title </h1>
     <div class="story-info">
       <p>Topic: <% @story.topic %></p>
       <p>Genre: <% @story.genre %></p>
@@ -9,7 +9,7 @@
   </div>
   <!-- Story ending generated picture -->
   <div class="story-picture">
-    <%= image_tag @story.picture %>
+    <p> Image here </p>
   </div>
   <!-- Story narration with messages, user replies, continuation of story and ending -->
   <div class="story-narration">
@@ -29,8 +29,6 @@
     </div>
     <!-- Possible next navigation actions (play again, see all my stories) -->
     <div class="actions">
-      <%= link_to "Start New Story", story_new_path, class:"btn btn-primary" %>
-      <%= link_to "See All my Stories", story_show_path, class:"btn btn-primary" %>
     </div>
   </div>
 </div>
