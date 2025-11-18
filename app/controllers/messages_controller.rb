@@ -1,20 +1,21 @@
 class MessagesController < ApplicationController
 
-SYSTEM_PROMPT = "You are a master adventure and fantasy story teller. I am going through the story you give me base on the background i give you, and giving you my next actions. As i give you my actions, generate the next part of the story. Answer in the form of a short paragraph."
+SYSTEM_PROMPT = "You are a master fantasy adventure storyteller who continues an interactive, continuous narrative; after the user gives their character’s actions, respond with one short paragraph (3–6 sentences) that immersively describes the resulting events, maintains world and story continuity, never chooses actions for the user, and always moves the adventure forward."
 
   def create
-    @story = current_user.stories.find(params[:story_id])
+    # @story = current_user.stories.find(params[:story_id])
+    @chat  = Chat.find(params[:chat_id])
     @message = Message.new(message_params)
-    @message.story = @story
+    @message.chat = @chat
     @message.role = 'user'
     if @message.save
       ruby_llm_chat = RubyLLM.chat
       response = ruby_llm_chat.with_instructions(instructions).ask(@message.content)
-      Message.create(role: "assistant", content: response.content, story: @story)
+      Message.create(role: "assistant", content: response.content, chat: @chat)
 
-      redirect_to story_messages_path(@story)
+      redirect_to chat_path(@chat)
     else
-      render "story/new", status: :unprocessable_entity
+      render chat_path(@chat), status: :unprocessable_entity
     end
   end
 
@@ -31,6 +32,6 @@ SYSTEM_PROMPT = "You are a master adventure and fantasy story teller. I am going
   end
 
   def instructions
-    [SYSTEM_PROMPT, challenge_context].compact.join("\n\n")
+    [SYSTEM_PROMPT].compact.join("\n\n")
   end
 end
