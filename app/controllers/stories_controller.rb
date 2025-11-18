@@ -25,6 +25,8 @@ end
       :protagonist_image
     )
   end
+
   def assessment
+    @story = current_user.stories.find(params[:id])
   end
 end

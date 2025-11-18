@@ -1,25 +1,36 @@
 <div class="assessment-page">
   <!-- Header for protagonist name, story title generated based on protagonist name, genre, topic -->
   <div class="story-header">
-    <h1 class="story-title"> <!-- <%= story.title %> --> </h1>
+    <h1 class="story-title"><%= story.title %></h1>
     <div class="story-info">
-      <p>Topic: <!-- story.topic --></p>
-      <p>Genre: <!-- story.genre --></p>
+      <p>Topic: <% story.topic %></p>
+      <p>Genre: <% story.genre %></p>
     </div>
   </div>
-  <!-- Story final picture -->
+  <!-- Story ending generated picture -->
   <div class="story-picture">
-    <!-- <%= image_tag story.picture.last %> -->
+    <%= image_tag story.picture %>
   </div>
-  <!-- Story narration with messages, user replies, continuation of story, then ending -->
+  <!-- Story narration with messages, user replies, continuation of story and ending -->
   <div class="story-narration">
-  </div>
-  <!-- Psychological assessment results -->
-  <div class="assessment-results">
-  </div>
-  <!-- Possible next navigation actions (play again, see all my stories) -->
-  <div class="actions">
-    <!-- <%= link_to "Start New Story", story_new_path, class:"btn btn-primary" %>
-    <%= link_to "See All my Stories", story_show_path, class:"btn btn-primary" %> -->
+    <div class="story-narration">
+      <% @story.messages.order(:created_at).each do |message| %>
+        <% if message.role == 'assistant' %>
+          <p class="narrative-text"><%= message.content %></p>
+        <% else %>
+          <p class="user-choice">
+            <strong>You chose:</strong> <em><%= message.content %></em>
+          </p>
+        <% end %>
+      <% end %>
+    </div>
+    <!-- Psychological assessment results -->
+    <div class="assessment-results">
+    </div>
+    <!-- Possible next navigation actions (play again, see all my stories) -->
+    <div class="actions">
+      <%= link_to "Start New Story", story_new_path, class:"btn btn-primary" %>
+      <%= link_to "See All my Stories", story_show_path, class:"btn btn-primary" %>
+    </div>
   </div>
 </div>
