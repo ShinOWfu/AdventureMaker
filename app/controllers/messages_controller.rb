@@ -9,8 +9,8 @@ SYSTEM_PROMPT = "You are a master fantasy adventure storyteller who continues an
     @message.chat = @chat
     @message.role = 'user'
     if @message.save
-      ruby_llm_chat = RubyLLM.chat
-      response = ruby_llm_chat.with_instructions(instructions).ask(@message.content)
+      # ruby_llm_chat = RubyLLM.chat
+      response = @chat.with_instructions(instructions).ask(@message.content)
       Message.create(role: "assistant", content: response.content, chat: @chat)
 
       redirect_to chat_path(@chat)
