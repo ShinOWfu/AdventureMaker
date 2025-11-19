@@ -1,0 +1,8 @@
+<h1>Your Stories</h1>
+<% @stories.each do |story| %>
+ <p> <%= story.protagonist_name %>
+  <%= story.protagonist_description%>
+  <%= story.topic %>
+  <%= story.assessment %>
+</p>
+<% end %>
