@@ -1,14 +1,23 @@
-<%= cl_image_tag @chat.messages.last.attachments.first.key %>
+<div class="container">
 
-<div id='messages'>
-  <p><%= @chat.messages.last.content %></p>
-</div>
+  <div class="image mt-3 d-flex justify-content-center">
+    <% if @chat.messages.any? %>
+      <% if @chat.messages.last.image.attached? %>
+        <%= cl_image_tag @chat.messages.last.image.key, class: 'img-fluid', style: 'max-width: 400px;' %>
+      <% end %>
+  </div>
+
+  <div id='messages' class='mt-3'>
+    <p><%= @chat.messages.last.content %></p>
+  </div>
+    <% end %>
 
 
-<div id='chatbox'>
-  <%= simple_form_for [@chat, @message] do |f| %>
-    <%= f.input :content, label: 'What is your next action?', required: true %>
-    <%= f.submit %>
+  <div id='chatbox'>
+    <%= simple_form_for [@chat, @message] do |f| %>
+      <%= f.input :content, label: 'What is your next action?', required: true %>
+      <%= f.submit %>
+    <% end %>
+  </div>
 
-  <% end %>
 </div>
