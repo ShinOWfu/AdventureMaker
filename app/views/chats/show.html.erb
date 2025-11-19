@@ -12,7 +12,7 @@
     </div>
   <% end %>
 
-  <% if @chat.messages.count < 5 %>
+  <% if @chat.messages.count >= 5 %>
     <div id='chatbox'>
       <%= simple_form_for [@chat, @message] do |f| %>
         <%= f.input :content, label: 'What is your next action?', required: true %>
