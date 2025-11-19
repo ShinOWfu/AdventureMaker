@@ -9,10 +9,14 @@
       <p><%= @chat.messages.last.content %></p>
     </div>
   <% end %>
-  <div id='chatbox'>
-    <%= simple_form_for [@chat, @message] do |f| %>
-      <%= f.input :content, label: 'What is your next action?', required: true %>
-      <%= f.submit %>
-    <% end %>
-  </div>
+  <% if @chat.messages.count <= 5 %>
+    <div id='chatbox'>
+      <%= simple_form_for [@chat, @message] do |f| %>
+        <%= f.input :content, label: 'What is your next action?', required: true %>
+        <%= f.submit %>
+      <% end %>
+    </div>
+  <% else %>
+    <%= link_to 'See the end of your journey', assessment_story_path(@chat.story), class: 'btn btn-secondary' %>
+  <% end %>
 </div>

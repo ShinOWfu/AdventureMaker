@@ -20,7 +20,7 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
 
         # image generation
         image_chat = RubyLLM.chat(model: "gemini-2.5-flash-image")
-        reply = image_chat.ask("generate a realistic looking image in #{@message.chat.story.genre} style following the story so far, and based on the user's next action here: #{response.content}")
+        reply = image_chat.ask(response.content)
         image = reply.content[:attachments][0].source
         message.image.attach(io: image, filename: "#.png", content_type: "image/png")
         message.save
