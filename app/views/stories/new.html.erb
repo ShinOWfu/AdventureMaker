@@ -1,28 +1,36 @@
-<%= simple_form_for(@story, data: { turbo: false }) do |f| %>
-  <% if @story.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@story.errors.count, "error") %> prohibited this story from being saved:</h2>
-      <ul>
-        <% @story.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<div class="container pt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h2>Set up your story</h2>
+          <%= simple_form_for(@story, data: { turbo: false }) do |f| %>
+            <% if @story.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(@story.errors.count, "error") %> prohibited this story from being saved:</h2>
+                <ul>
+                  <% @story.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+            <div class="form-inputs">
+              <%= f.input :protagonist_name, placeholder: "Input your character's name" %>
+              <%= f.input :protagonist_description, placeholder: "Optionally, add a description of your character" %>
+              <%= f.input :genre,
+                collection: ['Dystopian', 'Fantasy', 'Historical Fiction', 'Horror', 'Mystery', 'Romance', 'Sci-Fi', 'Western'],
+                prompt: "(Select the genre of the story)"
+              %>
+              <%= f.input :topic, placeholder: "Optionally, add some context or setting to the story" %>
+              <%= f.input :protagonist_image, as: :file, label: "Upload Protagonist Image" %>
+            </div>
+            <div class="form-actions">
+              <%= f.button :submit, "Begin Your Story!", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
-  <% end %>
-
-<%# I do not yet know if :protagonist_description will be just the user's
-description of their character or will be a broader sort of story
-context from the user %>
-  <div class="form-inputs">
-    <%= f.input :protagonist_name, placeholder: "Input your character's name" %>
-    <%= f.input :protagonist_description, placeholder: "Optionally, add a description of your character" %>
-    <%= f.input :genre,
-      collection: ['Dystopian', 'Fantasy', 'Historical Fiction', 'Horror', 'Mystery', 'Romance', 'Sci-Fi', 'Western'],
-      prompt: "(Select the genre of the story)"
-    %>
-    <%# if we want to change the color of the prompt text, we need CSS %>
-    <%= f.input :topic, placeholder: "Optionally, add some context or setting to the story" %>
-    <%= f.input :protagonist_image, as: :file, label: "Upload Protagonist Image" %>
-    <%= f.button :submit, "Begin Your Story!", class: "btn btn-primary"  %>
-
-<% end %>
+  </div>
+</div>
