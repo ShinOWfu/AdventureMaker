@@ -1,4 +1,9 @@
-<%= cl_image_tag @chat.messages.last.attachments.first.key %>
+<% if @chat.messages.last.attachments.first %>
+  <%= cl_image_tag @chat.messages.last.attachments.first.key %>
+<% else %>
+  <%= image_tag "https://static.wikia.nocookie.net/cartoons/images/e/ed/Profile_-_SpongeBob_SquarePants.png/revision/latest/thumbnail/width/360/height/360?cb=20240420115914", alt: "text" %>
+<% end %>
+
 
 <div id='messages'>
   <p><%= @chat.messages.last.content %></p>
