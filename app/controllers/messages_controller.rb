@@ -9,14 +9,6 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
     @message = Message.new(message_params)
     @message.chat = @chat
     @message.role = 'user'
-<<<<<<< HEAD
-    if @message.save
-      # ruby_llm_chat = RubyLLM.chat
-      response = @chat.with_instructions(instructions).ask(@message.content)
-      Message.create(role: "assistant", content: response.content, chat: @chat)
-=======
->>>>>>> master
-
 
     if @message.save
       user_message_count = @chat.messages.where(role: 'user').count
