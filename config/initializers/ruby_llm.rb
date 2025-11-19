@@ -3,7 +3,6 @@ RubyLLM.configure do |config|
   config.default_model = "gemini-2.5-flash"
   config.default_image_model = 'gemini-2.5-flash-image'
 
-
   # Use the new association-based acts_as API (recommended)
   config.use_new_acts_as = true
 end

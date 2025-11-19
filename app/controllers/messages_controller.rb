@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
 
-SYSTEM_PROMPT = "You are a master story teller who continues an interactive, continuous narrative; after the user gives their character’s actions,
+SYSTEM_PROMPT = "You are a master storyteller who continues an interactive, continuous narrative; after the user gives their character’s actions,
 respond with one short paragraph (3-6 sentences) that immersively describes the resulting events, maintains world and story continuity, never chooses actions for the user, and always moves the adventure forward."
 
   def create
@@ -10,14 +10,14 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
     @message.chat = @chat
     @message.role = 'user'
 
-    if @message.valid?
-      response = @chat.with_instructions(instructions).ask(@message.content)
+    if @message.save
       user_message_count = @chat.messages.where(role: 'user').count
-      debugger
-
-      if user_message_count > 4
+      if user_message_count > 5
         redirect_to assessment_story_path(@chat.story), notice: 'Your adventure has concluded! Time for you personality assessment!'
       else
+        response = @chat.with_instructions(instructions).ask(@message.content)
+        message = Message.create(role: "assistant", content: response.content, chat: @chat)
+
         # image generation
         image_chat = RubyLLM.chat(model: "gemini-2.5-flash-image")
         reply = image_chat.ask(response.content)
@@ -32,6 +32,8 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
     end
 
   end
+
+
 
   private
 
