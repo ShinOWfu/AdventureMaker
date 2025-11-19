@@ -1,0 +1,164 @@
+// This is where Haley is cooking up a color palette and css stylings.
+// Defaults located before bootstrap import to override its defaults.
+
+// Dark Grayscale palette
+$gray-100: #E8E8E8;  // Lightest - for primary text
+$gray-200: #C0C0C0;  // Light gray for secondary text
+$gray-300: #A0A0A0;
+$gray-400: #808080;
+$gray-500: #606060;  // Mid-gray
+$gray-600: #404040;
+$gray-700: #2A2A2A;
+$gray-800: #1A1A1A;  // Very dark gray
+$gray-900: #0A0A0A;  // Nearly pure black - for backgrounds
+
+// Body defaults
+$body-bg: $gray-900;           // Nearly black background
+$body-color: $gray-200;        // Light gray text
+
+// Component backgrounds
+$card-bg: lighten($gray-900, 3%);  // Slightly lighter than body
+$modal-content-bg: $gray-800;
+$dropdown-bg: $gray-800;
+
+// Borders
+$border-color: $gray-800;
+
+// Links
+$link-color: $gray-100;
+$link-hover-color: $gray-300;
+
+
+// ===========================
+// Typography
+// ===========================
+$font-family-sans-serif: 'Inter', system-ui, -apple-system, sans-serif;
+$font-family-monospace: 'Fira Code', monospace;
+
+$font-size-base: 1rem;
+$h1-font-size: 2.5rem;
+$h2-font-size: 2rem;
+
+// ===========================
+// Spacing
+// ===========================
+$spacer: 1rem;
+
+// ===========================
+// Border Radius
+// ===========================
+$border-radius: 0.5rem;
+$border-radius-lg: 0.75rem;
+$border-radius-sm: 0.25rem;
+
+// ===========================
+// Import Bootstrap NOW!!! WAHOOOO
+// ===========================
+@import 'bootstrap';
+
+// ===========================
+// Custom Component Overrides
+// ===========================
+.card {
+  background-color: lighten($gray-900, 5%);
+  border: 1px solid $gray-800;
+}
+
+// Button variations
+.btn-primary {
+  background-color: $gray-700;
+  border-color: $gray-600;
+  color: $gray-100;
+
+  &:hover {
+    background-color: $gray-600;
+    border-color: $gray-500;
+  }
+}
+
+// Tables
+.table {
+  color: $gray-200;
+
+  thead th {
+    border-bottom-color: $gray-700;
+  }
+
+  td, th {
+    border-top-color: $gray-800;
+  }
+}
+
+.form-control[type="file"] {
+  color: $gray-200 !important;
+
+  &::file-selector-button {
+    background-color: $gray-700 !important;
+    color: $gray-200 !important;
+  }
+}
+
+.notice, .alert {
+  background-color: $gray-800 !important;
+  color: $gray-200 !important;
+  border-color: $gray-700 !important;
+}
+
+// This is all the shit I put in to change the navbar to dark as well
+.navbar-lewagon {
+  background-color: $gray-900 !important;
+  border-bottom: 1px solid $gray-800;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: $gray-200 !important;
+
+  &:hover {
+    color: $gray-100 !important;
+  }
+}
+
+.dropdown-menu {
+  background-color: $gray-800 !important;
+  border-color: $gray-700 !important;
+}
+
+.dropdown-item {
+  color: $gray-200 !important;
+
+  &:hover {
+    background-color: $gray-700 !important;
+    color: $gray-100 !important;
+  }
+}
+
+.form-control {
+  background-color: $gray-800 !important;
+  border-color: $gray-700 !important;
+  color: $gray-200 !important;
+
+  &:focus {
+    background-color: $gray-800 !important;
+    border-color: $gray-600 !important;
+    color: $gray-100 !important;
+    box-shadow: 0 0 0 0.2rem rgba(160, 160, 160, 0.25) !important;
+  }
+}
+
+// For textarea fields
+textarea.form-control {
+  background-color: $gray-800 !important;
+  color: $gray-200 !important;
+}
+
+// For select dropdowns
+.form-select {
+  background-color: $gray-800 !important;
+  border-color: $gray-700 !important;
+  color: $gray-200 !important;
+
+  &:focus {
+    background-color: $gray-800 !important;
+    border-color: $gray-600 !important;
+  }
+}
