@@ -8,29 +8,25 @@
     </div>
   </div>
   <!-- Story ending generated picture -->
-  <div class="story-picture">
-    <p> Image here </p>
+  <div class="story-picture text-center mb-4">
+    <% if @final_message&.image&.attached? %>
+      <%= cl_image_tag @final_message.image.key, class: 'img-fluid', style: 'max-width: 600px;' %>
+    <% else %>
+      <p>No image available</p>
+    <% end %>
   </div>
-  <!-- Story narration with messages, user replies, continuation of story and ending -->
+  <!-- Story ending -->
   <div class="story-narration">
     <div class="story-content mb-4">
-      <% @story.messages.order(:created_at).each do |message| %>
-        <% if message.role == 'assistant' %>
-          <p class="narrative-text"><%= message.content %></p>
-        <% else %>
-          <p class="user-choice bg-dark p-3">
-            <strong>You chose:</strong> <em><%= message.content %></em>
-          </p>
-        <% end %>
-      <% end %>
+      <p class="narrative-text"><%= @final_story_content %></p>
     </div>
   </div>
-  <!-- Psychological assessment results -->
+  <!-- Psychological assessment results based on choices -->
   <div class="assessment-results mb-4">
     <h2>Psychological Assessment</h2>
     <p><%= @story.assessment%></p>
   </div>
-  <!-- Possible next navigation actions (play again, see all my stories) -->
+  <!-- Possible next navigation actions (play again, see all my stories?) -->
   <div class="actions text-center">
     <%= link_to "Create a New Story", new_story_path, class:"btn btn-primary"%>
   </div>
