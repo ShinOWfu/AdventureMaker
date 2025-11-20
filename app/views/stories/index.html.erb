@@ -1,12 +1,13 @@
 <h1>Your Stories</h1>
+
 <div class="container">
   <% @stories.each do |story| %>
   <div class="story p-2">
     <h4> <%= story.protagonist_name.capitalize %> </h4>
       <p>
-        -<%= story.protagonist_description%>
-        -<%= story.topic %>
-        -<%= story.assessment %>
+        ||<%= story.protagonist_description%>
+        ||<%= story.topic %>
+        ||<%= story.assessment %>
       </p>
     </div>
 <% end %>
