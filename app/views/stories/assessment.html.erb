@@ -18,7 +18,7 @@
         <% if message.role == 'assistant' %>
           <p class="narrative-text"><%= message.content %></p>
         <% else %>
-          <p class="user-choice bg-light p-3">
+          <p class="user-choice bg-dark p-3">
             <strong>You chose:</strong> <em><%= message.content %></em>
           </p>
         <% end %>
