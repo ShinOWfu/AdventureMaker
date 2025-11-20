@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>AdventureMaker</title>
+    <title>Write Your Fate – Adventure Maker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <%= favicon_link_tag 'favicon.png' %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
@@ -11,7 +12,11 @@
   <body>
     <%= render "shared/navbar" %>
     <%= yield %>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if notice.present? %>
+      <p class="notice"><%= notice %></p>
+    <% end %>
+    <% if alert.present? %>
+      <p class="alert"><%= alert %></p>
+    <% end %>
   </body>
 </html>
