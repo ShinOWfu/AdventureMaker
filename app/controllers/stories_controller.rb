@@ -8,6 +8,10 @@ class StoriesController < ApplicationController
     @story = Story.new
   end
 
+  def show
+    @story = Story.find(params[:id])
+  end
+
   def create
     # initialize the story and chat
     @story = Story.new(story_params)
@@ -50,35 +54,35 @@ class StoriesController < ApplicationController
                           "Make it feel final and complete. 2-3 sentences maximum." \
                           "Write the ultimate conclusion to their story."
 
-      final_story_content = @chat.ask(story_ending_prompt).content
+      @final_story_content = @chat.ask(story_ending_prompt).content
 
       # Save the ending, so now story includes 5 user decisions and 6 AI replies
-      final_message = Message.create!(
+      @final_message = Message.create!(
       role: "assistant",
-      content: final_story_content,
+      content: @final_story_content,
       chat: @chat
       )
 
       # Generate the final image
       image_prompt = "Generate a dramatic, cinematic final scene for this story that captures the ENTIRE journey. " \
                      "Create an image that shows the culmination of their adventure - include visual callbacks to key moments " \
-                     "from their journey, the protagonist's transformation, and the final outcome: #{final_message}. The composition should tell " \
+                     "from their journey, the protagonist's transformation, and the final outcome: #{@final_message}. The composition should tell " \
                      "the story of where they started, what they went through, and how it all ended. Make it epic, emotionally " \
                      "powerful, and visually capture the essence of their complete adventure from beginning to end."
 
       image_chat = RubyLLM.chat(model: "gemini-2.5-flash-image")
-      image_reply = image_chat.ask(image_prompt)
+      image_reply = image_chat.ask("#{image_prompt}. and use the attached image of the story's protagonist", with: {image: @story.protagonist_image.url})
       image_source = image_reply.content[:attachments][0].source
 
       # Attach to the final message, save the file as something more descriptive
-      final_message.image.attach(io: image_source, filename: "ending_#{final_message.id}.png", content_type: "image/png")
-      final_message.save
+      @final_message.image.attach(io: image_source, filename: "ending_#{@final_message.id}.png", content_type: "image/png")
+      @final_message.save
 
       # Prompt with line jumps for easier readability including the conversation
       assessment_prompt = "You're a therapist who is TIRED and barely hiding your judgment. Analyze their story choices. " \
                         "with thinly-veiled sarcasm and backhanded compliments." \
                         "Give exactly one paragraph of polite savagery " \
-                        "disguised as professional assessment. Stay passive-aggressive throughout."
+                        "disguised as professional assessment. Stay passive-aggressive throughout. Do not use any formatting"
 
       # Prompt the AI with the assessment
       @assessment = @chat.ask(assessment_prompt).content

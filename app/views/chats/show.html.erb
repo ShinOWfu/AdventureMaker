@@ -6,9 +6,15 @@
     <% end %>
   </div>
 
-  <div id="chatbox">
-    <% if @chat.messages.where(role: 'user').count >= 5 %>
-      <%= link_to 'See the end of your journey', assessment_story_path(@chat.story), class: 'btn btn-secondary mt-3' %>
+  <div id="chatbox" class='mt-3'>
+    <% if @user_message_count >= 4 %>
+      <div class="alert alert-info mt-3">
+        <strong>Final Chapter:</strong> This is the last step in your journey. Choose your final action wisely!
+      </div>
+      <%= simple_form_for [@chat, @message] do |f| %>
+        <%= f.input :content, label: 'What is your next action?', required: true %>
+        <%= f.submit 'Conculde Your Journey'%>
+      <% end %>
     <% else %>
       <%= simple_form_for [@chat, @message] do |f| %>
         <%= f.input :content, label: 'What is your next action?', required: true %>
@@ -16,5 +22,4 @@
       <% end %>
     <% end %>
   </div>
-
 </div>
