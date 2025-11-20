@@ -121,21 +121,6 @@ body {
   }
 }
 
-// This is what Gemini suggested to fix the overflow issue
-// .story-image-card {
-
-//   width: 100%;
-
-//   overflow: hidden;
-
-//   .story-image {
-//     width: 100%; /* Ensures it fills col-6 */
-//     height: auto; /* Ensures aspect ratio is maintained */
-//     object-fit: cover;
-//   }
-// }
-
-
 // Button variations
 .btn-primary {
   background-color: $gray-700;
