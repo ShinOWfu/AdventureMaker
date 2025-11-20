@@ -19,7 +19,7 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
       else
         # image generation
         image_chat = RubyLLM.chat(model: "gemini-2.5-flash-image")
-        reply = image_chat.ask("Generate an image based on this text #{response.content}")
+        reply = image_chat.ask("Generate an image based on this text #{response.content} and use the attached picture of the protagonist", with: { image: @chat.story.protagonist_image.url })
         image = reply.content[:attachments][0].source
         @message.image.attach(io: image, filename: "#.png", content_type: "image/png")
         @message.save
