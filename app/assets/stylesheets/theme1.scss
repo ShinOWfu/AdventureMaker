@@ -86,6 +86,25 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+// Stories index elements
+.story-card {
+  background-color: $gray-700;
+  border-color: $gray-600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.story-list {
+  a {
+    color: inherit;
+  }
+}
+
 // Button variations
 .btn-primary {
   background-color: $gray-700;
