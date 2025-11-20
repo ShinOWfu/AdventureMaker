@@ -110,7 +110,7 @@ body {
   background-color: $gray-700;
   border-color: $gray-600;
   color: $gray-100;
-  width: 100%;
+  width: auto;
   margin-top: 1rem;
   margin-bottom: 1rem;
 
@@ -118,6 +118,25 @@ body {
     background-color: $gray-600;
     border-color: $gray-500;
   }
+}
+
+.navbar .btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  display: inline-block;
+  text-decoration: none !important;
+  margin: 0 3px;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.3);
 }
 
 // Tables
