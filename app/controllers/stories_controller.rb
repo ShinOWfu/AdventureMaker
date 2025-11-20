@@ -67,7 +67,7 @@ class StoriesController < ApplicationController
                      "powerful, and visually capture the essence of their complete adventure from beginning to end."
 
       image_chat = RubyLLM.chat(model: "gemini-2.5-flash-image")
-      image_reply = image_chat.ask(image_prompt)
+      image_reply = image_chat.ask("#{image_prompt}. and use the attached image of the story's protagonist", with: {image: @story.protagonist_image.url})
       image_source = image_reply.content[:attachments][0].source
 
       # Attach to the final message, save the file as something more descriptive
