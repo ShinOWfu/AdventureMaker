@@ -50,8 +50,7 @@ class StoriesController < ApplicationController
                           "Make it feel final and complete. 2-3 sentences maximum." \
                           "Write the ultimate conclusion to their story."
 
-      story_chat = RubyLLM.chat
-      final_story_content = story_chat.ask(story_ending_prompt).content
+      final_story_content = @chat.ask(story_ending_prompt).content
 
       # Save the ending, so now story includes 5 user decisions and 6 AI replies
       final_message = Message.create!(
@@ -63,7 +62,7 @@ class StoriesController < ApplicationController
       # Generate the final image
       image_prompt = "Generate a dramatic, cinematic final scene for this story that captures the ENTIRE journey. " \
                      "Create an image that shows the culmination of their adventure - include visual callbacks to key moments " \
-                     "from their journey, the protagonist's transformation, and the final outcome. The composition should tell " \
+                     "from their journey, the protagonist's transformation, and the final outcome: #{final_message}. The composition should tell " \
                      "the story of where they started, what they went through, and how it all ended. Make it epic, emotionally " \
                      "powerful, and visually capture the essence of their complete adventure from beginning to end."
 
@@ -76,15 +75,13 @@ class StoriesController < ApplicationController
       final_message.save
 
       # Prompt with line jumps for easier readability including the conversation
-      assessment_prompt = "You're a therapist who is TIRED and barely hiding your judgment. Analyze their story choices " \
+      assessment_prompt = "You're a therapist who is TIRED and barely hiding your judgment. Analyze their story choices. " \
                         "with thinly-veiled sarcasm and backhanded compliments." \
-                        "Start with 'Well, that was... certainly a choice.' Use phrases like 'bless your heart', " \
-                        "'interesting approach', and 'I'm sure that made sense to YOU'. One paragraph of polite savagery " \
+                        "Give exactly one paragraph of polite savagery " \
                         "disguised as professional assessment. Stay passive-aggressive throughout."
 
       # Prompt the AI with the assessment
-      ruby_llm_chat = RubyLLM.chat
-      @assessment = ruby_llm_chat.ask(assessment_prompt).content
+      @assessment = @chat.ask(assessment_prompt).content
 
       # Save the assessment so no need to prompt AI every time we get into the story and we can revisit later.
       @story.update!(assessment: @assessment)
