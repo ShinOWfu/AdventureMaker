@@ -19,7 +19,7 @@ class StoriesController < ApplicationController
       # @chat.messages.create!(role: "system", content: @story_start)
       @message = Message.last
       image_chat = RubyLLM.chat(model: "gemini-2.5-flash-image")
-      reply = image_chat.ask("Generate an image based on this text #{@message.content}")
+      reply = image_chat.ask("Generate an image based on this text #{@message.content} and using the attached image of the story's protagonist", with: {image: @story.protagonist_image.url })
       image = reply.content[:attachments][0].source
       @message.image.attach(io: image, filename: "#.png", content_type: "image/png")
       @message.save
