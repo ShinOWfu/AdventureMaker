@@ -3,20 +3,36 @@
     <div class="col-md-8">
       <div class="card">
         <div class="card-body">
-          <h2 class="mb-4">Your Stories</h2>
+
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="m-0">Your Stories</h2>
+            <%= link_to "New Story", new_story_path, class: "btn btn-primary" %>
+          </div>
           <div class="story-list">
             <% @stories.each do |story| %>
-              <%= link_to chat_path(story.chat), class: "text-decoration-none" do %>
+              <%= link_to story_path(story), class: "text-decoration-none" do %>
                 <div class="card story-card mb-3">
                   <div class="card-body">
-                    <h5 class="card-title"><%= story.protagonist_name.capitalize %></h5>
-                    <h6 class="card-subtitle mb-2 text-muted"><%= story.genre %></h6>
-                    <% if story.protagonist_description.present? %>
-                      <p class="card-text"><%= truncate(story.protagonist_description, length: 100) %></p>
-                    <% end %>
-                    <% if story.topic.present? %>
-                      <p class="card-text text-muted"><small><%= truncate(story.topic, length: 80) %></small></p>
-                    <% end %>
+                    <div class="row">
+                      <div class="col-6" id="story-information">
+                        <h5 class="card-title"><%= story.protagonist_name.capitalize %></h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><%= story.genre %></h6>
+                        <% if story.protagonist_description.present? %>
+                          <p class="card-text"><%= truncate(story.protagonist_description, length: 100) %></p>
+                        <% end %>
+                        <% if story.topic.present? %>
+                          <p class="card-text text-muted"><small><%= truncate(story.topic, length: 80) %></small></p>
+                        <% end %>
+                      </div>
+                      <div class="col-6" id="story-image">
+                        <div class="story-image-card">
+                          <% messages_with_images = story.chat.messages.select { |m| m.image.attached? } %>
+                          <% if messages_with_images.any? %>
+                            <%= image_tag messages_with_images.last.image, class: "story-image rounded img-fluid" %>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               <% end %>

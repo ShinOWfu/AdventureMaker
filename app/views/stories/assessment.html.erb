@@ -9,10 +9,11 @@
   </div>
   <!-- Story ending generated picture -->
   <div class="story-picture text-center mb-4">
-    <% if @final_message&.image&.attached? %>
-      <%= cl_image_tag @final_message.image.key, class: 'img-fluid', style: 'max-width: 600px;' %>
+    <% messages_with_images = @story.chat.messages.select { |m| m.image.attached? } %>
+    <% if messages_with_images.any? %>
+      <%= cl_image_tag messages_with_images.last.image.key, class: "img-fluid rounded shadow", style: "max-width: 750px;" %>
     <% else %>
-      <p>No image available</p>
+      <p class="mb-0 text-muted">No final image available</p>
     <% end %>
   </div>
   <!-- Story ending -->

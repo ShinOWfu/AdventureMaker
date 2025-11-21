@@ -10,6 +10,12 @@ class StoriesController < ApplicationController
 
   def show
     @story = Story.find(params[:id])
+
+    if @story.assessment.present?
+      redirect_to assessment_story_path(@story)
+    else
+      redirect_to chat_path(@story.chat)
+    end
   end
 
   def create
