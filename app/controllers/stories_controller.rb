@@ -29,12 +29,25 @@ class StoriesController < ApplicationController
 
     if @story.save
       # 11/18 -- this is the line we need to change. We need to give the AI the story and make this line the AI's
-      @story_start= @chat.ask("You are a master storyteller. You are creating a the setting for a new story.The genre is #{@story.genre} and the context is #{@story.topic}. The player's character's name is #{@story.protagonist_name} and his detailed description is #{@story.protagonist_description}. Create an initial setup that places the protagonist in this new world. This should only be one short paragraph long and not end in a question")
+      story_start_prompt = "You are a master storyteller creating an opening scene. " \
+                          "Genre: #{@story.genre}. Setting: #{@story.topic}. " \
+                          "Protagonist: #{@story.protagonist_name} - #{@story.protagonist_description}. " \
+                          "Write one vivid paragraph (4-5 sentences) that drops the protagonist into this world. " \
+                          "Set the scene with sensory details and immediate atmosphere. " \
+                          "End with a moment of tension or choice, not a question."
+
+      @story_start= @chat.ask(story_start_prompt)
       # Message.create(role: "assistant", content: @story_start, chat: @chat)
       # @chat.messages.create!(role: "system", content: @story_start)
       @message = Message.last
+
+      initial_image_prompt = "Create an opening scene illustration for this story: #{@message.content} " \
+                       "VISUAL: Show the protagonist in their starting environment with atmospheric detail. " \
+                       "STYLE: Fantasy illustration, painterly, dramatic lighting. " \
+                       "Use the attached image as character reference for the protagonist."
+
       image_chat = RubyLLM.chat(model: "gemini-2.5-flash-image")
-      reply = image_chat.ask("Generate an image based on this text #{@message.content} and using the attached image of the story's protagonist", with: {image: @story.protagonist_image.url })
+      reply = image_chat.ask(initial_image_prompt, with: {image: @story.protagonist_image.url })
       image = reply.content[:attachments][0].source
       @message.image.attach(io: image, filename: "#.png", content_type: "image/png")
       @message.save
@@ -56,10 +69,8 @@ class StoriesController < ApplicationController
       last_user_message = @chat.messages.where(role: 'user').last
 
       # Generate the final story conclusion
-      story_ending_prompt = "You are a master storyteller concluding an interactive narrative. " \
-                          "Based on the user's final action, write a dramatic ending to their story. " \
-                          "Make it feel final and complete. 2-3 sentences maximum." \
-                          "Write the ultimate conclusion to their story."
+      story_ending_prompt = "Write a dramatic 2-3 sentence conclusion to this story based on the user's final choice: '#{last_user_message.content}' " \
+                            "Make it emotionally resonant and definitive - this is the final moment of their journey."
 
       @final_story_content = @chat.ask(story_ending_prompt).content
 
@@ -71,14 +82,17 @@ class StoriesController < ApplicationController
       )
 
       # Generate the final image
-      image_prompt = "Generate a dramatic, cinematic final scene for this story that captures the ENTIRE journey. " \
-                     "Create an image that shows the culmination of their adventure. " \
-                     "from their journey, the protagonist's transformation, and the final outcome: #{@final_message}. The composition should tell " \
-                     "the story of where they started, what they went through, and how it all ended. Make it epic, emotionally " \
-                     "powerful, and visually capture the essence of their complete adventure."
+      image_prompt = "Create a dramatic final scene illustration based on this story ending: #{@final_story_content} " \
+                      "VISUAL: " \
+                      "- Center the protagonist in their climactic moment " \
+                      "- Background hints at 2-3 key locations from their journey " \
+                      "- Lighting: Dramatic contrast - golden glow for triumph, stormy for tragedy " \
+                      "- Composition: Cinematic wide shot, rule-of-thirds " \
+                      "STYLE: Fantasy book cover art, painterly, detailed protagonist " \
+                      "AVOID: Text overlays, cluttered compositions"
 
       image_chat = RubyLLM.chat(model: "gemini-2.5-flash-image")
-      image_reply = image_chat.ask("#{image_prompt}. and use the attached image of the story's protagonist", with: {image: @story.protagonist_image.url})
+      image_reply = image_chat.ask(image_prompt, with: {image: @story.protagonist_image.url})
       image_source = image_reply.content[:attachments][0].source
 
       # Attach to the final message, save the file as something more descriptive
@@ -88,10 +102,11 @@ class StoriesController < ApplicationController
       @chat.messages.reload
 
       # Prompt with line jumps for easier readability including the conversation
-      assessment_prompt = "You're a therapist who is TIRED and barely hiding your judgment. Analyze their story choices. " \
-                        "with thinly-veiled sarcasm and backhanded compliments." \
-                        "Give exactly one paragraph of polite savagery " \
-                        "disguised as professional assessment. Stay passive-aggressive throughout. Do not use any formatting"
+      assessment_prompt = "You're a witty therapist analyzing this user's story choices with playful sarcasm. " \
+                          "Write ONE paragraph (4-6 sentences) of 'professional' assessment that's " \
+                          "secretly roasting their choices with passive-aggressive observations. " \
+                          "Tone: Politely savage, like a disappointed guidance counselor. " \
+                          "Format: Plain text, no formatting."
 
       # Prompt the AI with the assessment
       @assessment = @chat.ask(assessment_prompt).content
