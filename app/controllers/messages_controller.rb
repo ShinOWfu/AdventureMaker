@@ -16,11 +16,11 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
       @last_assistant_message = @chat.messages.where(role: "assistant").order(:created_at).last
 
       if @user_message_count > 4
-        redirect_to assessment_story_path(@chat.story), notice: 'Your adventure has concluded! Time for you personality assessment!'
+        redirect_to assessment_story_path(@chat.story)
         return
       end
       # image generation
-      ImageGeneratorJob.perform_later(@chat, @last_assistant_message)  
+      ImageGeneratorJob.perform_later(@chat, @last_assistant_message)
       redirect_to chat_path(@chat)
     else
       render chat_path(@chat), status: :unprocessable_entity
