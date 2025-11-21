@@ -42,13 +42,12 @@ class StoriesController < ApplicationController
       @message = Message.last
 
       initial_image_prompt = "Create an opening scene illustration for this story: #{@message.content} " \
-                       "VISUAL: Show the protagonist in their starting environment with atmospheric detail. " \
-                       "STYLE: Fantasy illustration, painterly, dramatic lighting. " \
-                       "Use the attached image as character reference for the protagonist."
+                        "Use the attached image as character reference for the protagonist."
 
       image_chat = RubyLLM.chat(model: "gemini-2.5-flash-image")
       reply = image_chat.ask(initial_image_prompt, with: {image: @story.protagonist_image.url })
       image = reply.content[:attachments][0].source
+
       @message.image.attach(io: image, filename: "#.png", content_type: "image/png")
       @message.save
       redirect_to chat_path(@chat), notice: "A new story has begun!"
@@ -84,9 +83,7 @@ class StoriesController < ApplicationController
                       "VISUAL: " \
                       "- Center the protagonist in their climactic moment " \
                       "- Background hints at 2-3 key locations from their journey " \
-                      "- Lighting: Dramatic contrast - golden glow for triumph, stormy for tragedy " \
                       "- Composition: Cinematic wide shot, rule-of-thirds " \
-                      "STYLE: Fantasy book cover art, painterly, detailed protagonist " \
                       "AVOID: Text overlays, cluttered compositions"
 
       image_chat = RubyLLM.chat(model: "gemini-2.5-flash-image")
