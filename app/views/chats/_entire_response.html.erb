@@ -1,7 +1,7 @@
 <div class="chat-image-container">
   <% if chat.messages.any? %>
     <div id="<%= dom_id(assistant_message) %>">
-      <%= render 'messages/image', message: assistant_message %>
+      <%= cl_image_tag @chat.messages.last.image.blob.key %>
     </div>
   <% end %>
 </div>
