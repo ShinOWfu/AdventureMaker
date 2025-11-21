@@ -48,6 +48,7 @@ class StoriesController < ApplicationController
     # Find the story by id
     @story = current_user.stories.find(params[:id])
     @chat = @story.chat
+    @chat.messages.reload
 
     # Execute ONLY if story.assessment is blank
     if @story.assessment.blank?
@@ -71,10 +72,10 @@ class StoriesController < ApplicationController
 
       # Generate the final image
       image_prompt = "Generate a dramatic, cinematic final scene for this story that captures the ENTIRE journey. " \
-                     "Create an image that shows the culmination of their adventure - include visual callbacks to key moments " \
+                     "Create an image that shows the culmination of their adventure. " \
                      "from their journey, the protagonist's transformation, and the final outcome: #{@final_message}. The composition should tell " \
                      "the story of where they started, what they went through, and how it all ended. Make it epic, emotionally " \
-                     "powerful, and visually capture the essence of their complete adventure from beginning to end."
+                     "powerful, and visually capture the essence of their complete adventure."
 
       image_chat = RubyLLM.chat(model: "gemini-2.5-flash-image")
       image_reply = image_chat.ask("#{image_prompt}. and use the attached image of the story's protagonist", with: {image: @story.protagonist_image.url})
@@ -82,7 +83,9 @@ class StoriesController < ApplicationController
 
       # Attach to the final message, save the file as something more descriptive
       @final_message.image.attach(io: image_source, filename: "ending_#{@final_message.id}.png", content_type: "image/png")
-      @final_message.save
+      @final_message.save!
+      @final_message.image.reload
+      @chat.messages.reload
 
       # Prompt with line jumps for easier readability including the conversation
       assessment_prompt = "You're a therapist who is TIRED and barely hiding your judgment. Analyze their story choices. " \

@@ -13,20 +13,15 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
     if @message.valid?
       response = @chat.with_instructions(instructions).ask(@message.content)
       @user_message_count = @chat.messages.where(role: 'user').count
+      @last_assistant_message = @chat.messages.where(role: "assistant").order(:created_at).last
 
       if @user_message_count > 4
         redirect_to assessment_story_path(@chat.story), notice: 'Your adventure has concluded! Time for you personality assessment!'
-      else
-        # image generation
-        image_chat = RubyLLM.chat(model: "gemini-2.5-flash-image")
-        reply = image_chat.ask("Generate an image based on this text #{response.content} and use the attached picture of the protagonist. Use a 3:1 aspect ratio when generating image.", with: { image: @chat.story.protagonist_image.url })
-        image = reply.content[:attachments][0].source
-        @last_user_message = @chat.messages.last
-        @last_user_message.image.attach(io: image, filename: "#.png", content_type: "image/png")
-        @last_user_message.save
-
-        redirect_to chat_path(@chat)
+        return
       end
+      # image generation
+      ImageGeneratorJob.perform_later(@chat, @last_assistant_message)  
+      redirect_to chat_path(@chat)
     else
       render chat_path(@chat), status: :unprocessable_entity
     end
