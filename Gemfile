@@ -78,4 +78,6 @@ gem "devise"
 gem "ostruct"
 gem "cloudinary"
 gem 'ruby_llm'
-gem 'async'
+# gem 'async'
+gem "solid_queue"
+gem "solid_cable"

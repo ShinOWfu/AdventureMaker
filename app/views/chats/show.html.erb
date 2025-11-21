@@ -1,11 +1,10 @@
 <div class="container">
-
   <div id="entire_response">
+    <%= turbo_stream_from @chat %>
     <% if @chat.messages.last.present? %>
-      <%= render 'entire_response', chat: @chat %>
+      <%= render 'entire_response', chat: @chat, assistant_message: @assistant_message %>
     <% end %>
   </div>
-
   <div id="chatbox" class='mt-3'>
     <% if @user_message_count >= 4 %>
       <div class="alert alert-info mt-3">
