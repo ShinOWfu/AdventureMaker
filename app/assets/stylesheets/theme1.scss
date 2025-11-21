@@ -300,15 +300,13 @@ textarea.form-control {
 .chat-content {
   flex: 1;
   margin-bottom: 1rem;
-  margin-top: 0.5rem;
 
   #messages {
     background-color: $gray-800;
     border: 1px solid $gray-700;
     border-radius: 0.75rem;
-    padding: 1.5rem;
+    padding: 1rem 1.5rem; // Reduced top/bottom (first value), kept left/right (second value)
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    // Removed min-height, now it grows based on content
   }
 }
 
@@ -355,5 +353,27 @@ textarea.form-control {
       width: 36px;
       height: 36px;
     }
+  }
+}
+
+// _image modal
+.modal-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .modal-content {
+    background-color: transparent;
+    border: none;
+    width: auto !important;
+    max-width: none;
+  }
+}
+
+.modal-body {
+  padding: 0;
+
+  img {
+    border-radius: 0.75rem;
   }
 }
