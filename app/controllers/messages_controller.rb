@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
 
 SYSTEM_PROMPT = "You are a master story teller who continues an interactive, continuous narrative; after the user gives their character’s actions,
-respond with one short paragraph (3-6 sentences) that immersively describes the resulting events, maintains world and story continuity, never chooses actions for the user, and always moves the adventure forward."
+respond with one short paragraph (3-6 sentences) that immersively describes the resulting events, maintains world and story continuity, never chooses actions for the user, and always moves the adventure forward. The story should be paced so it comes to an end after receiving 5 messages from the user"
 
   def create
     # @story = current_user.stories.find(params[:story_id])
@@ -20,7 +20,7 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
         return
       end
       # image generation
-      ImageGeneratorJob.perform_later(@chat, @last_assistant_message)  
+      ImageGeneratorJob.perform_later(@chat, @last_assistant_message, @chat.story)  
       redirect_to chat_path(@chat)
     else
       render chat_path(@chat), status: :unprocessable_entity
