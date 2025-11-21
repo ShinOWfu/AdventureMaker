@@ -1,24 +1,60 @@
-<div class="container">
-  <div id="entire_response">
-    <%= turbo_stream_from @chat %>
-    <% if @chat.messages.last.present? %>
-      <%= render 'entire_response', chat: @chat, assistant_message: @assistant_message %>
-    <% end %>
-  </div>
-  <div id="chatbox" class='mt-3'>
-    <% if @user_message_count >= 4 %>
-      <div class="alert alert-info mt-3">
-        <strong>Final Chapter:</strong> This is the last step in your journey. Choose your final action wisely!
+<div class="chat-layout">
+  <!-- Fixed image at top -->
+  <div class="chat-header">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="chat-image-container">
+            <%= turbo_stream_from @chat %>
+            <% if @chat.messages.last.present? && @assistant_message.present? %>
+              <div id="<%= dom_id(@assistant_message) %>">
+                <%= render 'messages/image', message: @assistant_message %>
+              </div>
+            <% end %>
+          </div>
+        </div>
       </div>
-      <%= simple_form_for [@chat, @message] do |f| %>
-        <%= f.input :content, label: 'What is your next action?', required: true %>
-        <%= f.submit 'Conclude Your Journey'%>
-      <% end %>
-    <% else %>
-      <%= simple_form_for [@chat, @message] do |f| %>
-        <%= f.input :content, label: 'What is your next action?', required: true %>
-        <%= f.submit 'Continue Journey'%>
-      <% end %>
-    <% end %>
+    </div>
+  </div>
+
+  <!-- Scrollable story text in middle -->
+  <div class="chat-content">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div id="messages" class='mt-3'>
+            <% if @assistant_message.present? %>
+              <%= @assistant_message.content %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fixed chatbox at bottom -->
+  <div class="chat-footer">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div id="chatbox">
+            <% if @user_message_count >= 4 %>
+              <div class="alert alert-info">
+                <strong>Final Chapter:</strong> This is the last step in your journey. Choose your final action wisely!
+              </div>
+              <%= simple_form_for [@chat, @message] do |f| %>
+                <%= f.input :content, label: 'What is your next action?', required: true %>
+                <%= f.submit 'Conclude Your Journey', class: 'btn btn-primary' %>
+              <% end %>
+            <% else %>
+              <%= simple_form_for [@chat, @message] do |f| %>
+                <%= f.input :content, label: 'What is your next action?', required: true %>
+                <%= f.submit 'Continue Journey', class: 'btn btn-primary' %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

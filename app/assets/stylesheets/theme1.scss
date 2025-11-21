@@ -147,6 +147,19 @@ body {
   text-decoration: none !important;
   margin: 0 3px;
 }
+.navbar .btn-primary {
+  background-color: $gray-700;
+  border-color: $gray-600;
+  color: $gray-100;
+  width: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  &:hover {
+    background-color: $gray-600;
+    border-color: $gray-500;
+  }
+}
 
 .btn:hover {
   background: rgba(255, 255, 255, 0.25);
@@ -173,24 +186,36 @@ body {
   border-color: $gray-700 !important;
 }
 
-// this was causing trouble because there's an alert in the application.html.erb by default
-// .alert {
-//   background-color: $gray-600 !important;
-//   color: $gray-200 !important;
-//   border-color: $gray-700 !important;
+// This is all the shit I put in to change the navbar to dark as well
+// .navbar-lewagon {
+//   background-color: $gray-900 !important;
+//   border-bottom: 1px solid $gray-800;
 // }
 
-// This is all the shit I put in to change the navbar to dark as well
-.navbar-lewagon {
-  background-color: $gray-900 !important;
-  border-bottom: 1px solid $gray-800;
+// .navbar-dark .navbar-nav .nav-link {
+//   color: $gray-200 !important;
+
+//   &:hover {
+//     color: $gray-100 !important;
+//   }
+// }
+
+.navbar-right {
+  position: fixed;
+  top: 1.5rem; // Same as Bootstrap's pt-4
+  right: 1rem;
+  z-index: 1000;
+  background-color: transparent;
 }
 
-.navbar-dark .navbar-nav .nav-link {
-  color: $gray-200 !important;
+.navbar-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 
-  &:hover {
-    color: $gray-100 !important;
+  .btn-primary {
+    width: 150px;
+    margin: 0;
   }
 }
 
@@ -266,5 +291,63 @@ textarea.form-control {
   &:focus {
     background-color: $gray-800 !important;
     border-color: $gray-600 !important;
+  }
+}
+
+
+// Chat styling
+.chat-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 1.5rem;
+}
+
+.chat-header {
+  margin-bottom: 0rem;
+}
+
+.chat-content {
+  flex: 1;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+
+  #messages {
+    background-color: $gray-800;
+    border: 1px solid $gray-700;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    // Removed min-height, now it grows based on content
+  }
+}
+
+.chat-footer {
+  // No special styling needed yet
+}
+
+.chat-image-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 33.33%; // 3:1 aspect ratio
+  overflow: hidden;
+  margin-top: 0;
+  border-radius: 0.75rem;
+
+  .chat-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+#chatbox {
+  .simple_form {
+    input[type="submit"] {
+      margin-top: 0rem;
+    }
   }
 }
