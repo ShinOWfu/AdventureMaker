@@ -29,9 +29,7 @@ $link-color: $gray-100;
 $link-hover-color: $gray-300;
 
 
-// ===========================
 // Typography
-// ===========================
 $font-family-sans-serif: 'Inter', system-ui, -apple-system, sans-serif;
 $font-family-monospace: 'Fira Code', monospace;
 
@@ -39,26 +37,18 @@ $font-size-base: 1rem;
 $h1-font-size: 2.5rem;
 $h2-font-size: 2rem;
 
-// ===========================
 // Spacing
-// ===========================
 $spacer: 1rem;
 
-// ===========================
 // Border Radius
-// ===========================
 $border-radius: 0.75rem;
 $border-radius-lg: 0.75rem;
 $border-radius-sm: 0.25rem;
 
-// ===========================
 // Import Bootstrap NOW!!! WAHOOOO
-// ===========================
 @import 'bootstrap';
 
-// ===========================
 // Custom Component Overrides
-// ===========================
 // Background image is here
 body {
      position: relative;
@@ -345,9 +335,25 @@ textarea.form-control {
 }
 
 #chatbox {
+  .form-control {
+    resize: none;
+    padding-right: 50px;
+    min-height: 44px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
   .simple_form {
-    input[type="submit"] {
-      margin-top: 0rem;
+    position: relative;
+
+    button[type="submit"] {
+      position: absolute;
+      right: 0.5rem;
+      bottom: 0.5rem;
+      margin: 0;
+      padding: 0.4rem;
+      width: 36px;
+      height: 36px;
     }
   }
 }

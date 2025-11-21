@@ -16,7 +16,6 @@
       </div>
     </div>
   </div>
-
   <!-- Scrollable story text in middle -->
   <div class="chat-content">
     <div class="container">
@@ -31,7 +30,6 @@
       </div>
     </div>
   </div>
-
   <!-- Fixed chatbox at bottom -->
   <div class="chat-footer">
     <div class="container">
@@ -48,8 +46,12 @@
               <% end %>
             <% else %>
               <%= simple_form_for [@chat, @message] do |f| %>
-                <%= f.input :content, label: 'What is your next action?', required: true %>
-                <%= f.submit 'Continue Journey', class: 'btn btn-primary' %>
+                <div style="position: relative;">
+                  <%= f.input :content, label: 'What is your next action?', required: true, wrapper_html: { class: 'mb-0' } %>
+                  <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+                    <i class="fa-solid fa-forward"></i>
+                  <% end %>
+                </div>
               <% end %>
             <% end %>
           </div>
