@@ -21,7 +21,7 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
         end
 
         # image generation
-        ImageGeneratorJob.perform_later(@chat, @last_assistant_message)
+        ImageGeneratorJob.perform_later(@chat, @last_assistant_message, @chat.story)
         redirect_to chat_path(@chat)
 
       rescue RubyLLM::Error => e
@@ -29,13 +29,6 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
         @chat.messages.order(:created_at).where(role: 'user').last.destroy
         redirect_to chat_path(@chat), notice: 'The storyteller is currently overwhelmed. Please try again in a moment.'
       end
-<<<<<<< HEAD
-      # image generation
-      ImageGeneratorJob.perform_later(@chat, @last_assistant_message, @chat.story)  
-      redirect_to chat_path(@chat)
-=======
-
->>>>>>> master
     else
       render chat_path(@chat), status: :unprocessable_entity
     end

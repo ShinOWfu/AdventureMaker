@@ -8,7 +8,7 @@ class ImageGeneratorJob < ApplicationJob
     messages_with_images = story.chat.messages.select { |m| m.image.attached? }
     last_image = messages_with_images.last.image.url if messages_with_images.any?
      # Line below is the image call where I pass the image as input
-    reply = image_chat.ask("Generate an image based on this text #{last_assistant_message.content} and use the attached picture of the protagonist as well as make the image consistent with the last image", with: [chat.story.protagonist_image.url, last_image] )
+    reply = image_chat.ask("Generate an image based on this text #{last_assistant_message.content} and use the attached picture of the protagonist. The style of the generated image should be similar with the last image", with: [chat.story.protagonist_image.url, last_image] )
     image = reply.content[:attachments][0].source
     last_assistant_message.image.attach(io: image, filename: "#.png", content_type: "image/png")
     last_assistant_message.save
