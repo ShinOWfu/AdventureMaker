@@ -147,6 +147,19 @@ body {
   text-decoration: none !important;
   margin: 0 3px;
 }
+.navbar .btn-primary {
+  background-color: $gray-700;
+  border-color: $gray-600;
+  color: $gray-100;
+  width: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  &:hover {
+    background-color: $gray-600;
+    border-color: $gray-500;
+  }
+}
 
 .btn:hover {
   background: rgba(255, 255, 255, 0.25);
@@ -173,24 +186,36 @@ body {
   border-color: $gray-700 !important;
 }
 
-// this was causing trouble because there's an alert in the application.html.erb by default
-// .alert {
-//   background-color: $gray-600 !important;
-//   color: $gray-200 !important;
-//   border-color: $gray-700 !important;
+// This is all the shit I put in to change the navbar to dark as well
+// .navbar-lewagon {
+//   background-color: $gray-900 !important;
+//   border-bottom: 1px solid $gray-800;
 // }
 
-// This is all the shit I put in to change the navbar to dark as well
-.navbar-lewagon {
-  background-color: $gray-900 !important;
-  border-bottom: 1px solid $gray-800;
+// .navbar-dark .navbar-nav .nav-link {
+//   color: $gray-200 !important;
+
+//   &:hover {
+//     color: $gray-100 !important;
+//   }
+// }
+
+.navbar-right {
+  position: fixed;
+  top: 1.5rem; // Same as Bootstrap's pt-4
+  right: 1rem;
+  z-index: 1000;
+  background-color: transparent;
 }
 
-.navbar-dark .navbar-nav .nav-link {
-  color: $gray-200 !important;
+.navbar-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 
-  &:hover {
-    color: $gray-100 !important;
+  .btn-primary {
+    width: 150px;
+    margin: 0;
   }
 }
 
