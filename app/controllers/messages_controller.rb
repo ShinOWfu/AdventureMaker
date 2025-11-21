@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
 
 SYSTEM_PROMPT = "You are a master story teller who continues an interactive, continuous narrative; after the user gives their character’s actions,
-respond with one very short paragraph that immersively describes the resulting events, maintains world and story continuity, never chooses actions for the user, and always moves the adventure forward. The story should conclude after 5 user messages."
+respond with one short paragraph that immersively describes the resulting events, maintains world and story continuity, never proposes actions for the user, and always moves the adventure forward."
 
   def create
     # @story = current_user.stories.find(params[:story_id])
