@@ -42,7 +42,7 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
   end
 
   def message_context
-    "Here is the context of the challenge: #{@message.content}."
+    "Here is the context of the message: #{@message.content}."
   end
 
   def instructions
