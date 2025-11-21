@@ -66,7 +66,7 @@ class StoriesController < ApplicationController
     if @story.assessment.blank?
 
       # Generate the final story conclusion
-      story_ending_prompt = "Write a dramatic 2-3 sentence conclusion to this story based on the user's final choice: '#{last_user_message.content}' " \
+      story_ending_prompt = "Write a dramatic 2-3 sentence conclusion to this story based on the user's final choice: '#{@chat.messages.where(role: "user").order(:created_at).last.content}' " \
                             "Make it emotionally resonant and definitive - this is the final moment of their journey."
 
       @final_story_content = @chat.ask(story_ending_prompt).content

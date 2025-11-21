@@ -18,6 +18,7 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
 
         if @user_message_count > 4
           redirect_to assessment_story_path(@chat.story), notice: 'Your adventure has concluded! Time for you personality assessment!'
+          return
         end
 
         # image generation
