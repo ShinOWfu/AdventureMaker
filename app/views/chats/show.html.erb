@@ -10,6 +10,12 @@
               <div id="<%= dom_id(@assistant_message) %>">
                 <%= render 'messages/image', message: @assistant_message %>
               </div>
+            <% else %>
+              <div class="image-loading">
+                <div class="spinner-border text-light" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
             <% end %>
           </div>
         </div>

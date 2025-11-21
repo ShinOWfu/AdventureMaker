@@ -50,7 +50,7 @@ class StoriesController < ApplicationController
 
       @message.image.attach(io: image, filename: "#.png", content_type: "image/png")
       @message.save
-      redirect_to chat_path(@chat), notice: "A new story has begun!"
+      redirect_to chat_path(@chat)
     else
       render :new, status: :unprocessable_entity
     end
