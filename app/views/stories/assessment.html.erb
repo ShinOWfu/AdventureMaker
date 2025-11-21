@@ -11,7 +11,7 @@
   <div class="story-picture text-center mb-4">
     <% messages_with_images = @story.chat.messages.select { |m| m.image.attached? } %>
     <% if messages_with_images.any? %>
-      <%= cl_image_tag messages_with_images.last.image.key, class: "img-fluid rounded shadow", style: "max-width: 750px;" %>
+      <%= cl_image_tag messages_with_images.last.image.blob.key, class: "img-fluid rounded shadow", style: "max-width: 750px;" %>
     <% else %>
       <p class="mb-0 text-muted">No final image available</p>
     <% end %>
