@@ -9,23 +9,30 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
     @message = Message.new(message_params)
     @message.chat = @chat
     @message.role = 'user'
+    @user_message_count = @chat.messages.where(role: 'user').count
 
     if @message.valid?
-      response = @chat.with_instructions(instructions).ask(@message.content)
-      @user_message_count = @chat.messages.where(role: 'user').count
-      @last_assistant_message = @chat.messages.where(role: "assistant").order(:created_at).last
+      begin
+        response = @chat.with_instructions(instructions).ask(@message.content)
+        @last_assistant_message = @chat.messages.where(role: "assistant").order(:created_at).last
 
-      if @user_message_count > 4
-        redirect_to assessment_story_path(@chat.story), notice: 'Your adventure has concluded! Time for you personality assessment!'
-        return
+        if @user_message_count > 4
+          redirect_to assessment_story_path(@chat.story), notice: 'Your adventure has concluded! Time for you personality assessment!'
+        end
+
+        # image generation
+        ImageGeneratorJob.perform_later(@chat, @last_assistant_message)
+        redirect_to chat_path(@chat)
+
+      rescue RubyLLM::Error => e
+        Rails.logger.error "LLM Error: #{e.message}"
+        @chat.messages.order(:created_at).where(role: 'user').last.destroy
+        redirect_to chat_path(@chat), notice: 'The storyteller is currently overwhelmed. Please try again in a moment.'
       end
-      # image generation
-      ImageGeneratorJob.perform_later(@chat, @last_assistant_message)  
-      redirect_to chat_path(@chat)
+
     else
       render chat_path(@chat), status: :unprocessable_entity
     end
-
   end
 
   private
@@ -35,11 +42,10 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
   end
 
   def message_context
-    "Here is the context of the challenge: #{@message.content}."
+    "Here is the context of the message: #{@message.content}."
   end
 
   def instructions
     [SYSTEM_PROMPT].compact.join("\n\n")
   end
-
 end
