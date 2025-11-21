@@ -29,7 +29,7 @@ class StoriesController < ApplicationController
 
     if @story.save
       # 11/18 -- this is the line we need to change. We need to give the AI the story and make this line the AI's
-      @story_start= @chat.ask("You are a master storyteller. You are creating a the setting for a new story.The genre is #{@story.genre} and the context is #{@story.topic}. The player's character's name is #{@story.protagonist_name} and his detailed description is #{@story.protagonist_description}. Create an initial setup that places the protagonist in this new world. This should only be one short paragraph long and not end in a question")
+      @story_start = @chat.ask("You are a master storyteller. You are creating a the setting for a new story.The genre is #{@story.genre} and the context is #{@story.topic}. The player's character's name is #{@story.protagonist_name} and his detailed description is #{@story.protagonist_description}. Create an initial setup that places the protagonist in this new world. This should only be one short paragraph long and not end in a question")
       # Message.create(role: "assistant", content: @story_start, chat: @chat)
       # @chat.messages.create!(role: "system", content: @story_start)
       @message = Message.last
