@@ -5,29 +5,24 @@ respond with one short paragraph (3-6 sentences) that immersively describes the 
 
   def create
     # @story = current_user.stories.find(params[:story_id])
-    @chat  = Chat.find(params[:chat_id])
-    @message = Message.new(message_params)
-    @message.chat = @chat
-    @message.role = 'user'
+    begin
+      @chat  = Chat.find(params[:chat_id])
+      @message = Message.new(message_params)
+      @message.chat = @chat
+      @message.role = 'user'
 
-    if @message.valid?
-      begin
+      if @message.valid?
         response = @chat.with_instructions(instructions).ask(@message.content)
         @user_message_count = @chat.messages.where(role: 'user').count
+        @last_assistant_message = @chat.messages.where(role: "assistant").order(:created_at).last
 
         if @user_message_count > 4
           redirect_to assessment_story_path(@chat.story), notice: 'Your adventure has concluded! Time for you personality assessment!'
-        else
-          # image generation
-          image_chat = RubyLLM.chat(model: "gemini-2.5-flash-image")
-          reply = image_chat.ask("Generate an image based on this text #{response.content} and use the attached picture of the protagonist", with: { image: @chat.story.protagonist_image.url })
-          image = reply.content[:attachments][0].source
-          @last_user_message = @chat.messages.last
-          @last_user_message.image.attach(io: image, filename: "#.png", content_type: "image/png")
-          @last_user_message.save
-
-          redirect_to chat_path(@chat)
+          return
         end
+        # image generation
+        ImageGeneratorJob.perform_later(@chat, @last_assistant_message)
+        redirect_to chat_path(@chat)
       rescue RubyLLM::Error => e
           Rails.logger.error "LLM Error: #{e.message}"
           @message.destroy  # Delete the failed message so user can retry
