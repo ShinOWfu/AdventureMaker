@@ -1,4 +1,4 @@
-<div class="image mt-3 d-flex justify-content-center">
+<div class="chat-image-container">
   <% if chat.messages.any? %>
     <div id="<%= dom_id(assistant_message) %>">
       <%= render 'messages/image', message: assistant_message %>
