@@ -62,4 +62,9 @@ Built by a team of 4 developers during Le Wagon Tokyo Batch #2123.
 
 ---
 
+## License
+This project is licensed under the MIT License
+
+---
+
 *Your story. Your choices. Your adventure.*
